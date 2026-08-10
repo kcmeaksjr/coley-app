@@ -426,17 +426,14 @@ async function getAffirmation() {
   loading.style.display = 'flex';
   coley.src = S.thinking;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:120,
-        messages:[{role:'user',content:'You are Coley, a warm, silly, uplifting little green semicolon character who is a mental health companion. Give one short original heartfelt positive affirmation (2-3 sentences). Only the affirmation itself in quotes, nothing else.'}]
-      })
+    // Secure backend function call
+    const res = await fetch('/.netlify/functions/affirmation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
     });
     const data = await res.json();
-    const text = data.content?.map(c=>c.text||'').join('') || '"You are enough, exactly as you are today."';
+    const text = data.affirmation || '"You are enough, exactly as you are today. 💚"';
     txt.textContent = text;
     setColeyVideo('home-coley-wrap', 'overjoyed', S.excited);
     setTimeout(()=>{ setColeyVideo('home-coley-wrap', 'thinking', S.default); }, 3000);
