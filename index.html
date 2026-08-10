@@ -424,7 +424,7 @@ async function getAffirmation() {
   btn.disabled = true;
   txt.style.display = 'none';
   loading.style.display = 'flex';
-  coley.src = S.thinking;
+  setColeyVideo('home-coley-wrap', 'thinking', S.default);
   try {
     // Secure backend function call
     const res = await fetch('/.netlify/functions/affirmation', {
